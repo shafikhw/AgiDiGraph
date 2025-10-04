@@ -96,6 +96,6 @@ The script walks through the hackathon user stories: it checks health, lists dis
 The `/chat` endpoint and Streamlit chat pane now call an OpenAI-powered agent. Set `OPENAI_API_KEY` in `.env` and keep `USE_OFFLINE_REASONER=false` to enable it. When the key is missing or offline mode is active, the chat falls back to a deterministic summary.
 
 ## Contributors:
-Lama Mawlawi 
-Suha abo Dahish 
-Shafik Houeidi
+- Lama Mawlawi 
+- Suha abo Dahish 
+- Shafik Houeidi
