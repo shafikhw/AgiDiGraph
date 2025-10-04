@@ -166,6 +166,7 @@ class GraphAgent:
         question: str,
         year: Optional[int] = None,
         country: Optional[str] = None,
+        history: Optional[List[Dict[str, str]]] = None,
     ) -> Tuple[str, List[str]]:
         disasters = get_disasters_filtered(graph, year=year, country=country)
         if not disasters and year is None:
@@ -207,7 +208,7 @@ class GraphAgent:
         return content.strip(), sources
 
 
-def _fallback_answer(graph: Any, year: Optional[int], country: Optional[str]) -> Tuple[str, List[str]]:
+def _fallback_answer(graph: Any, year: Optional[int], country: Optional[str], history: Optional[List[Dict[str, str]]] = None) -> Tuple[str, List[str]]:
     disasters = get_disasters_filtered(graph, year=year, country=country)
     disasters.sort(key=lambda item: item.get("severity_score") or 0.0, reverse=True)
     top = disasters[:5]
@@ -248,12 +249,13 @@ def answer_question(
     question: str,
     year: Optional[int] = None,
     country: Optional[str] = None,
+    history: Optional[List[Dict[str, str]]] = None,
 ) -> Tuple[str, List[str]]:
     agent = get_agent()
     if agent is None:
-        return _fallback_answer(graph, year, country)
+        return _fallback_answer(graph, year, country, history=history)
     try:
-        return agent.answer(graph, question, year=year, country=country)
+        return agent.answer(graph, question, year=year, country=country, history=history)
     except Exception as exc:  # pragma: no cover - defensive
         LOGGER.error("Agent failed: %s", exc)
-        return _fallback_answer(graph, year, country)
+        return _fallback_answer(graph, year, country, history=history)

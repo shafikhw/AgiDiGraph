@@ -105,6 +105,7 @@ def chat_endpoint(request: ChatRequest, graph=Depends(graph_dependency)):
         request.message,
         year=request.year,
         country=request.country,
+        history=[msg.dict() if hasattr(msg, "dict") else msg for msg in request.history],
     )
     if not sources:
         sources = ['graphs/disaster_impacts.json']

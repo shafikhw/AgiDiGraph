@@ -240,6 +240,9 @@ def render_chat_tab(year: Optional[int], country: Optional[str]) -> None:
         st.chat_message("user").write(user_input)
 
         payload: Dict[str, Any] = {"message": user_input}
+        history_payload = st.session_state.get("chat_history", [])[:-1]
+        if history_payload:
+            payload["history"] = history_payload[-10:]
         if year is not None:
             payload["year"] = year
         if country:

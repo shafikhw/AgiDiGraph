@@ -67,10 +67,16 @@ class RelatedDisaster(BaseModel):
     relation: EdgeType
 
 
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
 class ChatRequest(BaseModel):
     message: str
     year: Optional[int] = None
     country: Optional[str] = None
+    history: List[ChatMessage] = Field(default_factory=list)
 
 
 class ChatResponse(BaseModel):
@@ -92,6 +98,7 @@ __all__ = [
     "DisasterDetailBatchResponse",
     "DisasterSummary",
     "RelatedDisaster",
+    "ChatMessage",
     "ChatRequest",
     "ChatResponse",
     "GraphStatus",
