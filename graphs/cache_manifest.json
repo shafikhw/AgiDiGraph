@@ -1,0 +1,9 @@
+{
+  "entries": {
+    "978e1aaa46e1e7d98ab7e44e72cb15721743adc1f3eb5d26d7aace68575ea710": {
+      "graphml": "graphs\\disaster_impacts.graphml",
+      "json": "graphs\\disaster_impacts.json",
+      "data_file": "C:\\Users\\shafi\\OneDrive - American University of Beirut\\AUB\\Grad\\EECE798S\\Hackathon\\AgiDiGraph\\data\\public_emdat_custom_request_2025-10-04_90_2.csv"
+    }
+  }
+}

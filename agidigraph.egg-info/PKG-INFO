@@ -1,3 +1,13 @@
+Metadata-Version: 2.1
+Name: agidigraph
+Version: 0.1.0
+Summary: LLM-driven climate disaster impact graph builder and explorer
+Author: Hackathon Team
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Provides-Extra: dev
+License-File: LICENSE
+
 ﻿# AgiDiGraph
 
 AgiDiGraph builds an evidence-rich disaster impact knowledge graph for South Asia floods and storms. An LLM agent interprets EM-DAT rows, generates nodes/edges with provenance, and publishes them through a FastAPI service (Streamlit UI coming in a later phase).
@@ -6,13 +16,12 @@ AgiDiGraph builds an evidence-rich disaster impact knowledge graph for South Asi
 
 - Activate the provided Anaconda environment: `source C:/Users/shafi/anaconda3/Scripts/activate ai-agentic`
 - Install project dependencies once: `pip install -e .[dev]`
-- Populate `.env` with `OPENAI_API_KEY`, `USE_OFFLINE_REASONER`, `GRAPH_MAX_BATCHES`, `GRAPH_CACHE_ENABLED`, etc.
+- Populate `.env` with `OPENAI_API_KEY`, `USE_OFFLINE_REASONER`, `GRAPH_MAX_BATCHES`, etc.
 
 Key toggles:
 - `USE_OFFLINE_REASONER=true` forces deterministic extraction (no OpenAI spend).
-- `USE_OFFLINE_REASONER=false` keeps the OpenAI agent active.
-- `GRAPH_CACHE_ENABLED=true` (default) reuses graph artifacts when the EM-DAT file is unchanged; set to `false` to force rebuilds.
-- `GRAPH_MAX_BATCHES` only applies when cache is disabled and limits how many records are processed (for quick smoke runs).
+- `USE_OFFLINE_REASONER=false` enables live calls; combine with `GRAPH_MAX_BATCHES` to cap requests.
+- Cached completions land in `logs/cache/` so repeat runs reuse prior outputs.
 
 ## Build the Graph
 
@@ -22,8 +31,6 @@ python scripts/build_graph.py
 ```
 
 The builder loads EM-DAT records, processes them in batches, calls OpenAI (`gpt-4o-mini`) when enabled, validates the JSON payload, and merges into a NetworkX graph. Artifacts are written to `graphs/disaster_impacts.json` and `graphs/disaster_impacts.graphml`.
-
-The results are cached in `graphs/cache_manifest.json`; if the EM-DAT CSV is unchanged, subsequent runs reuse the cached artifacts for faster setup.
 
 If the graph artifacts are missing when the API starts, `scripts.build_graph.build_and_export` is invoked automatically to regenerate them.
 
