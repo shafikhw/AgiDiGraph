@@ -75,6 +75,10 @@ The UI expects the FastAPI server to be available (default `http://localhost:800
 docker build -t agidigraph:latest .
 docker run --rm -p 8000:8000 agidigraph:latest
 ```
+or to load an existing docker image
+```
+docker run -p 8000:8000 ghcr.io/shafikhw/agidigraph:latest
+```
 
 Mount local data or provide `OPENAI_API_KEY` via `-e` when you need online graph construction inside the container.
 
